@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart'; // Import provider
 import 'package:todo_app/pages/add_page.dart';
 import 'package:todo_app/pages/home_page.dart';
+import 'package:todo_app/provider/todo_provider.dart'; // Import TodoProvider
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => TodoProvider(), // Provide the TodoProvider
+      child: MyApp(), // Wrap the app
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -14,8 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routeInformationParser: _router.routeInformationParser,
-      routerDelegate: _router.routerDelegate,
+      routerConfig: _router,
       debugShowCheckedModeBanner: false,
     );
   }
@@ -24,11 +29,11 @@ class MyApp extends StatelessWidget {
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => const HomePage(),
+        builder: (context, state) => const HomePage(), // Home page route
       ),
       GoRoute(
         path: '/add',
-        builder: (context, state) => AddPage(),
+        builder: (context, state) => AddPage(), // Add page route
       ),
     ],
   );

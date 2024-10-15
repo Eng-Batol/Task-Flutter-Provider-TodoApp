@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart'; // Import Provider package
+import 'package:todo_app/provider/todo_provider.dart'; // Import TodoProvider
 
 class AddPage extends StatelessWidget {
   AddPage({Key? key}) : super(key: key);
-  final todoController = TextEditingController();
+
+  final todoController =
+      TextEditingController(); // Correct TextEditingController name
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +23,7 @@ class AddPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(40.0),
               child: TextField(
-                controller: todoController,
+                controller: todoController, // Attach todoController
                 decoration: InputDecoration(
                   hintText: 'Your todo',
                   border: OutlineInputBorder(
@@ -31,7 +36,14 @@ class AddPage extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                // Access TodoProvider and add new todo
+                final todoProvider =
+                    Provider.of<TodoProvider>(context, listen: false);
+                todoProvider.addTodo(todoController.text); // Add the new todo
+                GoRouter.of(context)
+                    .pop(); // Go back to the home page after adding
+              },
               style: ButtonStyle(
                 backgroundColor:
                     MaterialStateProperty.all<Color>(Colors.amber.shade300),
